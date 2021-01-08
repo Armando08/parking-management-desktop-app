@@ -1,4 +1,4 @@
-# vue-electron-app
+# Parking Manager Desktop APP - Armando Muceku
 
 ## Project setup
 ```
