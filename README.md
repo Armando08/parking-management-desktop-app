@@ -1,4 +1,4 @@
-# Parking Manager Desktop APP - Armando Muceku
+# Parking Manager Desktop APP Refactoring in TYPESCRIPT - Armando Muceku
 
 ## Project setup
 ```
