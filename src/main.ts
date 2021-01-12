@@ -5,7 +5,6 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import { theme, colors } from '@/../src/theme.ts'
-import 'vuetify/dist/vuetify.min.css'
 
 Vue.mixin({
   computed: {
