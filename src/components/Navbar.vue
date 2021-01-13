@@ -11,7 +11,12 @@
       >{{ currentTime }}</v-toolbar-title
     >
     <v-spacer v-if="displayLogoutBtn"></v-spacer>
-    <v-btn v-if="displayLogoutBtn" @click.prevent="logout" fab :color="$colors.white">
+    <v-btn
+      v-if="displayLogoutBtn"
+      @click.prevent="logout"
+      fab
+      :color="$colors.white"
+    >
       <v-icon>mdi-exit-to-app</v-icon>
     </v-btn>
   </v-app-bar>

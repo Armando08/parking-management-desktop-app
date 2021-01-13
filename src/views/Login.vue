@@ -3,7 +3,7 @@
     <v-main>
       <navbar />
       <v-container fluid fill-height>
-        <v-layout align-top justify-center>
+        <v-layout class="d-flex justify-center flex-row align-center">
           <v-flex xs10 sm8 md6 lg5 xl4>
             <v-card style="width: 100%" class="elevation-12">
               <v-toolbar :color="$colors.dark">
@@ -85,5 +85,4 @@ export default class Login extends Vue {
 .login-header {
   color: white;
 }
-
 </style>
