@@ -1,5 +1,5 @@
 <template>
-  <div class="home">
+  <div class="d-flex mt-5">
     <NavBar />
     <Content />
   </div>
@@ -18,3 +18,8 @@ import Content from '@/components/Content.vue'
 })
 export default class Home extends Vue {}
 </script>
+<style scoped lang="scss">
+/*.home {*/
+/*  display: flex;*/
+/*}*/
+</style>

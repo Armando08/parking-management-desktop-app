@@ -1,16 +1,22 @@
 <template>
-  <v-container class="mt-2">
-    <CarPlateInput />
-  </v-container>
+  <v-flex class="d-flex mt-16">
+    <v-container class="d-flex justify-center flex-column ml-3">
+      <car-plate-input />
+      <parking-bill />
+    </v-container>
+    <v-container>
+      <parking-list />
+    </v-container>
+  </v-flex>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
 import CarPlateInput from '@/components/CarPlateInput.vue'
+import ParkingList from '@/components/ParkingList.vue'
+import ParkingBill from '@/components/ParkingBill.vue'
 @Component({
-  components: { CarPlateInput },
+  components: { ParkingBill, ParkingList, CarPlateInput },
 })
-export default class Content extends Vue {
-
-}
+export default class Content extends Vue {}
 </script>

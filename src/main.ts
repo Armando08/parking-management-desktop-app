@@ -16,20 +16,8 @@ Vue.mixin({
     },
   },
 })
-router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    if (store.getters.token.accessToken) {
-      next()
-    } else {
-      router.push({ name: 'login' })
-    }
-  } else {
-    next()
-  }
-})
 
 Vue.config.productionTip = false
-
 new Vue({
   router,
   store,

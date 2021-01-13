@@ -1,8 +1,8 @@
 <template>
-  <v-app class="absolute inset-0 bg-gradient-to-r from-cyan-400">
-    <v-main>
+  <v-app class="absolute inset-0">
+    <div>
       <router-view />
-    </v-main>
+    </div>
   </v-app>
 </template>
 
@@ -12,8 +12,7 @@ import Vue from 'vue'
 export default Vue.extend({
   name: 'App',
 
-  components: {
-  },
+  components: {},
 
   data: () => ({
     //

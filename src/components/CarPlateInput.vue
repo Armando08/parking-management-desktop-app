@@ -1,32 +1,28 @@
 <template>
-  <v-flex d-flex class="pr-3">
-    <v-hover>
-      <v-card
-        slot-scope="{ hover }"
-        :class="`elevation-${hover ? 6 : 2}`"
-        class="mr-auto car-plate-content"
+  <v-card
+    slot-scope="{ hover }"
+    :class="`elevation-${hover ? 6 : 2}`"
+    class="mr-3 ml-5 car-plate-content"
+  >
+    <v-flex xs12 sm8 md-4 class="input-content">
+      <v-text-field
+        label="License Plate"
+        single-line
+        prepend-inner-icon="mdi-car"
+        v-model="plate"
+        @keyup.13="addPlate"
+      ></v-text-field>
+      <v-btn
+        fab
+        medium
+        :color="$colors.dark"
+        @click="addPlate"
+        class="add-button"
       >
-        <v-flex xs12 sm8 class="input-content">
-          <v-text-field
-            label="Targa"
-            single-line
-            prepend-inner-icon="mdi-car"
-            v-model="plate"
-            @keyup.13="addPlate"
-          ></v-text-field>
-          <v-btn
-            fab
-            medium
-            :color="$colors.dark"
-            @click="addPlate"
-            class="add-button"
-          >
-            <v-icon color="white">mdi-plus</v-icon>
-          </v-btn>
-        </v-flex>
-      </v-card>
-    </v-hover>
-  </v-flex>
+        <v-icon color="white">mdi-plus</v-icon>
+      </v-btn>
+    </v-flex>
+  </v-card>
 </template>
 
 <script lang="ts">
@@ -57,8 +53,9 @@ export default class CarPlateInput extends Vue {
 
 <style lang="scss" scoped>
 .car-plate-content {
-  width: 50%;
-  height: 200px;
+  /*width: 50%;*/
+  height: 300px;
+  margin-left: 0 !important;
   .input-content {
     position: relative;
     margin: auto;
