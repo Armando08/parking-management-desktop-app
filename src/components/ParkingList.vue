@@ -94,7 +94,10 @@ export default class ParkingList extends Vue {
 </script>
 <style scoped lang="scss">
 .parking-list-container {
-  /*width: 50%;*/
+  width: 47%;
   overflow: auto;
+  position: absolute;
+  top: 250px;
+  margin-left: 0 !important;
 }
 </style>

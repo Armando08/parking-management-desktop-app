@@ -54,7 +54,7 @@ export default class CarPlateInput extends Vue {
 <style lang="scss" scoped>
 .car-plate-content {
   /*width: 50%;*/
-  height: 300px;
+  height: 100px;
   margin-left: 0 !important;
   .input-content {
     position: relative;

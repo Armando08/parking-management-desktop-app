@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12 class="pr-3">
     <v-card
-      style="margin-top: 20px; position: absolute; bottom: 50px; width: 48%"
+      style="position: absolute; top: 100px; width: 48%"
       width="100%"
     >
       <v-toolbar color="dark" dark>

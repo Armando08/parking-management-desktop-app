@@ -2,10 +2,10 @@
   <v-flex class="d-flex mt-16">
     <v-container class="d-flex justify-center flex-column ml-3">
       <car-plate-input />
-      <parking-bill />
+      <parking-list />
     </v-container>
     <v-container>
-      <parking-list />
+      <parking-bill />
     </v-container>
   </v-flex>
 </template>
