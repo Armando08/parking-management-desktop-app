@@ -1,9 +1,6 @@
 <template>
   <v-flex xs12 class="pr-3">
-    <v-card
-      style="position: absolute; top: 100px; width: 48%"
-      width="100%"
-    >
+    <v-card style="position: absolute; top: 100px; width: 48%" width="100%">
       <v-toolbar color="dark" dark>
         <v-icon>mdi-information-outline</v-icon>
         <v-toolbar-title class="ml-2">Cash Desk </v-toolbar-title>
@@ -84,7 +81,7 @@
 <script>
 import { Vue, Component } from 'vue-property-decorator'
 @Component({})
-export default class CarPlateInput extends Vue {
+export default class ParkingBill extends Vue {
   removeParkedCar() {
     console.log('removed')
   }

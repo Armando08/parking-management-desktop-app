@@ -12,7 +12,7 @@
     <v-data-table
       v-model="selected"
       :headers="headers"
-      :items="carDetails"
+      :items="parkingList"
       :search="search"
       item-key="currentTime"
       class="w-full"
@@ -47,23 +47,20 @@
 </template>
 
 <script lang="ts">
-import { mapGetters } from 'vuex'
 import { Component, Vue } from 'vue-property-decorator'
-@Component({
-  computed: {
-    ...mapGetters({
-      carDetails: 'getCarsInStore',
-    }),
-  },
-})
+
+import { namespace } from 'vuex-class'
+const Parking = namespace('Parking')
+@Component({})
 export default class ParkingList extends Vue {
+  @Parking.Getter
+  parkingList!: any[]
   search?: string = ''
   options: object | any = {
     sortBy: 'entry',
     rowsPerPage: -1,
   }
-  parkedCars?: Array<any> = []
-  selected: [] = []
+  selected: any = []
   headers: Array<Record<string, any>> = [
     {
       text: 'Car Plate',
@@ -86,9 +83,6 @@ export default class ParkingList extends Vue {
       this.options.sortBy = column
       this.options.descending = false
     }
-  }
-  mounted() {
-    console.log(this.$vuetify.breakpoint.width)
   }
 }
 </script>

@@ -66,7 +66,7 @@ export default class Login extends Vue {
   password?: string = ''
 
   async login() {
-    const credentials: object = {
+    const credentials = {
       loginTime: moment().format('DD/MM/YYYY HH:mm:ss'),
       email: this.username,
       password: this.password,
