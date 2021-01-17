@@ -1,9 +1,5 @@
 <template>
-  <v-card
-    slot-scope="{ hover }"
-    :class="`elevation-${hover ? 6 : 2}`"
-    class="mr-3 ml-5 car-plate-content"
-  >
+  <v-card class="mr-3 ml-5 car-plate-content">
     <v-flex xs12 sm8 md-4 class="input-content">
       <v-text-field
         label="License Plate"
@@ -28,6 +24,8 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import moment from 'moment'
+import { namespace, Getter } from 'vuex-class'
+const parking = namespace('parking')
 @Component({})
 export default class CarPlateInput extends Vue {
   plate = ''
@@ -46,6 +44,7 @@ export default class CarPlateInput extends Vue {
       id: ++this.id,
       fromDate: moment().format('YYYY-MM-DD'),
     }
+    this.$store.dispatch('printEntryInvoice', parkedDetails)
     this.plate = ''
   }
 }
