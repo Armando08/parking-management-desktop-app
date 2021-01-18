@@ -1,10 +1,12 @@
 <template>
   <v-card class="parking-list-container ml-3 mr-5">
     <v-card-title>
+      Parked Cars
+      <v-spacer></v-spacer>
       <v-text-field
         v-model="search"
         append-icon="mdi-magnify"
-        label="Search..."
+        label="Search"
         single-line
         hide-details
       ></v-text-field>
@@ -14,31 +16,20 @@
       :headers="headers"
       :items="parkingList"
       :search="search"
+      :show-select="true"
+      :items-per-page="10"
       item-key="currentTime"
-      class="w-full"
+      class="w-full elevation-1"
     >
-      <template slot="headers" slot-scope="props">
-        <tr>
-          <th
-            v-for="header in props.headers"
-            :key="header.text"
-            :class="[
-              'column sortable text-center',
-              options.descending ? 'desc' : 'asc',
-              header.value === options.sortBy ? 'active' : '',
-            ]"
-            @click="changeSort(header.value)"
-          >
-            <v-icon small>mdi-arrow_upward</v-icon>
-            {{ header.text }}
-          </th>
-        </tr>
-      </template>
-      <template slot="items" slot-scope="props">
-        <tr :active="props.selected" @click="checkout(props.index)">
-          <td class="text-uppercase text-center">{{ props.item.plate }}</td>
+      <template v-slot:item="row">
+        <tr
+          :active="row.selected"
+          :key="row.index"
+          @click="checkoutDetails(row.index)"
+        >
+          <td class="text-uppercase text-center">{{ row.item.plate }}</td>
           <td class="text-center">
-            {{ props.item.currentTime.slice(11, 19) }}
+            {{ row.item.currentTime.slice(11, 19) }}
           </td>
         </tr>
       </template>
@@ -48,7 +39,6 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-
 import { namespace } from 'vuex-class'
 const Parking = namespace('Parking')
 @Component({})
@@ -65,33 +55,32 @@ export default class ParkingList extends Vue {
     {
       text: 'Car Plate',
       value: 'plate',
-      align: 'right',
+      align: 'center',
       class: 'text-center',
     },
     {
       text: 'Entry Time',
       value: 'currentTime',
-      align: 'left',
+      align: 'center',
       sortable: true,
     },
   ]
-
-  changeSort(column: string) {
-    if (this.options.sortBy === column) {
-      this.options.descending = !this.options.descending
-    } else {
-      this.options.sortBy = column
-      this.options.descending = false
-    }
+  checkoutDetails = (index: number) => {
+    console.log(index)
+    // this.$store.dispatch('setCheckoutDetail', index)
   }
 }
 </script>
-<style scoped lang="scss">
+<style lang="scss">
 .parking-list-container {
   width: 47%;
   overflow: auto;
   position: absolute;
   top: 250px;
   margin-left: 0 !important;
+  th.text-start {
+    display: none !important;
+  }
 }
+
 </style>
