@@ -29,7 +29,7 @@
         >
           <td class="text-uppercase text-center">{{ row.item.plate }}</td>
           <td class="text-center">
-            {{ row.item.currentTime.slice(11, 19) }}
+            {{ row.item.currentTime }}
           </td>
         </tr>
       </template>
@@ -44,7 +44,7 @@ const Parking = namespace('Parking')
 @Component({})
 export default class ParkingList extends Vue {
   @Parking.Getter
-  parkingList!: any[]
+  parkingList!: object[]
   search?: string = ''
   options: object | any = {
     sortBy: 'entry',
@@ -66,8 +66,7 @@ export default class ParkingList extends Vue {
     },
   ]
   checkoutDetails = (index: number) => {
-    console.log(index)
-    // this.$store.dispatch('setCheckoutDetail', index)
+    this.$store.dispatch('setCheckoutDetail', index)
   }
 }
 </script>
@@ -82,5 +81,4 @@ export default class ParkingList extends Vue {
     display: none !important;
   }
 }
-
 </style>

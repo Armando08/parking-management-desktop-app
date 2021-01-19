@@ -9,7 +9,10 @@
           ALL</v-toolbar-title
         >
       </v-toolbar>
-      <v-list>
+      <v-list-item v-if="checkoutData.carPlate === undefined">
+        Click a row to continue
+      </v-list-item>
+      <v-list v-else>
         <v-list-item>
           <v-list-item-action>
             <v-icon color="black">mdi-car</v-icon>
@@ -18,7 +21,7 @@
           <v-list-item-content>
             <v-list-item-subtitle>License Plate :</v-list-item-subtitle>
             <v-list-item-title>
-              AA889DD
+              {{ checkoutData.carPlate }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -78,12 +81,21 @@
   </v-flex>
 </template>
 
-<script>
+<script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
+import { namespace } from 'vuex-class'
+const Parking = namespace('Parking')
 @Component({})
 export default class ParkingBill extends Vue {
+  @Parking.Getter
+  checkoutData: any
   removeParkedCar() {
     console.log('removed')
+  }
+  created() {
+    Object.keys(this.checkoutData).forEach(
+      keys => delete this.checkoutData[keys]
+    )
   }
 }
 </script>

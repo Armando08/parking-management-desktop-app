@@ -32,7 +32,7 @@ const calculateFee = (durationInMilisec: number) => {
 @Module({ namespaced: true })
 class Parking extends VuexModule {
   public loginTime?: string = ''
-  public checkoutDetails?: object = {}
+  public checkoutDetails?: object
   public parkedCars: any = []
   public loggedUser?: any = ''
   public totalTurnover?: number = 0
@@ -68,14 +68,14 @@ class Parking extends VuexModule {
   }
 
   @Mutation
-  SET_CAR_DETAILS(payload: any): void {
+  SET_CAR_DETAILS(index: number) {
     const endTime: string = moment().format('DD/MM/YYYY HH:mm:ss')
     const endTimestamp: number = new Date().getTime()
-    const startTime: number = this.parkedCars[payload].currentTime
+    const startTime: number = this.parkedCars[index].currentTime
     const toDate: string = moment().format('YYYY-MM-DD')
-    const id: number = this.parkedCars[payload].id
+    const id: number = this.parkedCars[index].id
     const user: any = this.loggedUser
-    const startTimestamp: number = this.parkedCars[payload].startTimestamp
+    const startTimestamp: number = this.parkedCars[index].startTimestamp
     const differenceMs: number = moment(endTime, 'DD/MM/YYYY HH:mm:ss').diff(
       moment(startTime, 'DD/MM/YYYY HH:mm:ss')
     )
@@ -86,12 +86,12 @@ class Parking extends VuexModule {
 
     this.checkoutDetails = {
       startTime: startTime,
-      carPlate: this.parkedCars[payload].plate,
+      carPlate: this.parkedCars[index].plate,
       endTime: endTime,
       timeAmount: totalTime,
       totalClientAmount: totalAmount,
-      tableIndex: payload,
-      startTimestamp: this.parkedCars[payload].startTimestamp,
+      tableIndex: index,
+      startTimestamp: this.parkedCars[index].startTimestamp,
       id: id,
       endTimestamp,
       toDate,
@@ -112,7 +112,6 @@ class Parking extends VuexModule {
   @Mutation
   ENTRY_INVOICE_PRINT(payload: any) {
     alert('Armandooo !')
-    console.log(payload, `is thi sundefines !`)
     if (payload.plate === '') {
       alert('Ju lutem vendosni nje vlere')
       return
@@ -153,6 +152,7 @@ class Parking extends VuexModule {
       const contentToPrint: string = templateFn(data)
       fs.writeFileSync(file, contentToPrint)
 
+      //@-ts-ignore
       let winPrinter: any = new BrowserWindow({
         width: 800,
         height: 250,
@@ -300,10 +300,10 @@ class Parking extends VuexModule {
   //     alert(e)
   //   }
   // }
-  // @Action
-  // public setCheckoutDetail({ commit, state }: any, index: number) {
-  //   this.context.commit('SET_CAR_DETAILS', index)
-  // }
+  @Action({ root: true, rawError: true })
+  setCheckoutDetail(index: number) {
+    this.context.commit('SET_CAR_DETAILS', index)
+  }
   @Action({ root: true, rawError: true })
   async printEntryInvoice(data: any) {
     this.context.commit('ENTRY_INVOICE_PRINT', data)
@@ -343,8 +343,10 @@ class Parking extends VuexModule {
   get parkingList() {
     return this.parkedCars
   }
+  get checkoutData() {
+    return this.checkoutDetails
+  }
   printEntryInvoices({ commit, state }: any, payload: any) {
-    alert('mucekuuuuuuuuu')
     return commit('ENTRY_INVOICE_PRINT', payload)
   }
 }
