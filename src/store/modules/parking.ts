@@ -99,12 +99,12 @@ class Parking extends VuexModule {
     }
   }
   @Mutation
-  REMOVE_PARKED_CAR(state: any) {
-    this.parkedCars.splice(state.checkoutDetail.tableIndex, 1)
+  REMOVE_PARKED_CAR() {
+    this.parkedCars.splice(this.checkoutDetails.tableIndex, 1)
     this.checkoutDetails = {}
   }
   @Mutation
-  TOTAL_TURNOVER(state: any, payload: any) {
+  TOTAL_TURNOVER(payload: any) {
     /*eslint-disable */
     this.users[this.loggedUser].turnOverAmount += payload.totalClientAmount
     /*eslint-enable*/
@@ -308,17 +308,17 @@ class Parking extends VuexModule {
   async printEntryInvoice(data: any) {
     this.context.commit('ENTRY_INVOICE_PRINT', data)
   }
-  @Action
-  removeParkedCar({ commit, state }: any, index: number) {
+  @Action({ root: true, rawError: true })
+  removeParkedCar(index: number) {
     this.context.commit('REMOVE_PARKED_CAR', index)
   }
   @Action
   printExitInvoice({ commit, state }: any, payload: any) {
     this.context.commit('EXIT_INVOICE_PRINT', payload)
   }
-  @Action
-  totalTurnOver({ commit, state }: any, payload: any) {
-    commit('TOTAL_TURNOVER', payload)
+  @Action({ root: true, rawError: true })
+  totalTurnOver(payload: any) {
+    this.context.commit('TOTAL_TURNOVER', payload)
   }
   @Action
   login({ commit, state }: any, payload: any) {
@@ -348,6 +348,13 @@ class Parking extends VuexModule {
   }
   printEntryInvoices({ commit, state }: any, payload: any) {
     return commit('ENTRY_INVOICE_PRINT', payload)
+  }
+  get dailyTotalTurnover() {
+    console.log(this.users)
+    if (this.loggedUser && this.users[this.loggedUser]) {
+      return this.users[this.loggedUser].turnOverAmount
+    }
+    return 0
   }
 }
 export default Parking

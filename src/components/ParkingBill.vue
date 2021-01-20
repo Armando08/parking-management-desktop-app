@@ -5,8 +5,8 @@
         <v-icon>mdi-information-outline</v-icon>
         <v-toolbar-title class="ml-2">Cash Desk </v-toolbar-title>
         <v-toolbar-title style="position:absolute; right: 15px;"
-          ><v-icon class="pr-2">mdi-label </v-icon>Daily Amount: 1000
-          ALL</v-toolbar-title
+          ><v-icon class="pr-2">mdi-label </v-icon>Daily Amount:
+          {{ dailyTotalTurnover }} USD</v-toolbar-title
         >
       </v-toolbar>
       <v-list-item v-if="checkoutData.carPlate === undefined">
@@ -33,7 +33,7 @@
 
           <v-list-item-content>
             <v-list-item-subtitle>Date & Entry Time :</v-list-item-subtitle>
-            <v-list-item-title>00:01:25</v-list-item-title>
+            <v-list-item-title>{{ checkoutData.startTime }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-list-item>
@@ -43,7 +43,7 @@
 
           <v-list-item-content>
             <v-list-item-subtitle>Date & Exit Time :</v-list-item-subtitle>
-            <v-list-item-title>11:02:00</v-list-item-title>
+            <v-list-item-title>{{ checkoutData.endTime }}</v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-divider></v-divider>
@@ -54,7 +54,7 @@
           <v-list-item-content>
             <v-list-item-subtitle>Total Time Spent :</v-list-item-subtitle>
             <v-list-item-title>
-              11:02:00
+              {{ checkoutData.timeAmount }}
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
@@ -64,15 +64,17 @@
             <v-icon color="black">mdi-cash-usd</v-icon>
           </v-list-item-action>
           <v-list-item-content>
-            <v-list-item-subtitle>Totali :</v-list-item-subtitle>
-            <v-list-item-title class="font-bold">200 ALL </v-list-item-title>
+            <v-list-item-subtitle>Total :</v-list-item-subtitle>
+            <v-list-item-title class="font-bold"
+              >{{ checkoutData.totalClientAmount }}
+            </v-list-item-title>
           </v-list-item-content>
         </v-list-item>
         <v-btn
           large
           style="position: absolute; bottom: 15px; right: 10px;"
           color="success"
-          @click="removeParkedCar"
+          @click="checkoutParkedCar"
           >Checkout
           <v-icon right>mdi-check</v-icon>
         </v-btn>
@@ -89,8 +91,14 @@ const Parking = namespace('Parking')
 export default class ParkingBill extends Vue {
   @Parking.Getter
   checkoutData: any
-  removeParkedCar() {
-    console.log('removed')
+  @Parking.Getter
+  dailyTotalTurnover: number
+  checkoutParkedCar() {
+    console.log(this.checkoutData)
+    this.$store.dispatch('removeParkedCar', this.checkoutData)
+    this.$store.dispatch('printExitInvoice', this.checkoutData)
+    this.$store.dispatch('reportData', this.checkoutData)
+    this.$store.dispatch('totalTurnOver', this.checkoutData)
   }
   created() {
     Object.keys(this.checkoutData).forEach(
@@ -99,5 +107,3 @@ export default class ParkingBill extends Vue {
   }
 }
 </script>
-
-<style scoped></style>

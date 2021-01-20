@@ -24,8 +24,6 @@
 <script lang="ts">
 import { Vue, Component } from 'vue-property-decorator'
 import moment from 'moment'
-import { namespace, Getter } from 'vuex-class'
-const parking = namespace('parking')
 @Component({})
 export default class CarPlateInput extends Vue {
   plate = ''
@@ -41,7 +39,7 @@ export default class CarPlateInput extends Vue {
         .join(''),
       currentTime,
       startTimestamp,
-      id: ++this.id,
+      id: this.id++,
       fromDate: moment().format('YYYY-MM-DD'),
     }
     this.$store.dispatch('printEntryInvoice', parkedDetails)

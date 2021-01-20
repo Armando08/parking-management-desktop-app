@@ -26,6 +26,7 @@
           :active="row.selected"
           :key="row.index"
           @click="checkoutDetails(row.index)"
+          style="cursor:pointer;"
         >
           <td class="text-uppercase text-center">{{ row.item.plate }}</td>
           <td class="text-center">
