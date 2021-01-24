@@ -1,7 +1,6 @@
 <template>
   <v-app>
     <v-main>
-      <navbar />
       <v-container fluid fill-height>
         <v-layout class="d-flex justify-center flex-row align-center">
           <v-flex xs10 sm8 md6 lg5 xl4>
@@ -57,27 +56,34 @@
 <script lang="ts">
 import moment from 'moment'
 import { Component, Vue } from 'vue-property-decorator'
-import Navbar from '@/components/Navbar.vue'
-@Component({
-  components: { Navbar },
-})
+@Component({})
 export default class Login extends Vue {
   username?: string = ''
   password?: string = ''
 
-  async login() {
-    const credentials = {
+  login() {
+    const credentials: any = {
       loginTime: moment().format('DD/MM/YYYY HH:mm:ss'),
       email: this.username,
       password: this.password,
     }
-    // if (!response) {
-    //   return
-    // }
-    if (this.username === 'admin') {
-      return this.$router.push({ name: 'admin' })
+    const isEmpty = () => {
+      return (this.username === '' || this.password === '')
     }
-    await this.$router.push({ name: 'Home' })
+    if (isEmpty()) {
+      alert('How you can login without username or password ?')
+      return this.$router.push({ name: 'Login' })
+    }
+
+    console.log(credentials, `credentials`)
+    const response = this.$store.dispatch('login', credentials)
+    if (!response) {
+      return
+    }
+    if (this.username === 'admin') {
+      return this.$router.push({ name: 'Reports' })
+    }
+    this.$router.push({ name: 'Home' })
   }
 }
 </script>

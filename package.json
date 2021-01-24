@@ -24,6 +24,7 @@
     "moment": "^2.29.1",
     "register-service-worker": "^1.7.1",
     "roboto-fontface": "*",
+    "tslib": "^1.11.2",
     "vue": "^2.6.11",
     "vue-class-component": "^7.2.3",
     "vue-property-decorator": "^9.1.2",
@@ -80,6 +81,9 @@
       "ecmaVersion": 2020
     },
     "rules": {}
+  },
+  "resolutions": {
+    "tslib": "1.11.2"
   },
   "browserslist": [
     "> 1%",
