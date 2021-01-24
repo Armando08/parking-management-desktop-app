@@ -61,21 +61,19 @@ export default class Login extends Vue {
   username?: string = ''
   password?: string = ''
 
-  login() {
+  async login() {
     const credentials: any = {
       loginTime: moment().format('DD/MM/YYYY HH:mm:ss'),
       email: this.username,
       password: this.password,
     }
     const isEmpty = () => {
-      return (this.username === '' || this.password === '')
+      return this.username === '' || this.password === ''
     }
     if (isEmpty()) {
-      alert('How you can login without username or password ?')
-      return this.$router.push({ name: 'Login' })
+      alert('How can you login without a username or password ? 😲 ')
+      return
     }
-
-    console.log(credentials, `credentials`)
     const response = this.$store.dispatch('login', credentials)
     if (!response) {
       return

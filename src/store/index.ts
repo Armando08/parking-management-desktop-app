@@ -10,8 +10,8 @@ const vuexLocal = new VuexPersistence({
 })
 export default new Vuex.Store({
   modules: {
-    Parking: Parking,
     Reports: Reports,
+    Parking: Parking,
   },
   strict: process.env.NODE_ENV !== 'production',
   plugins: [vuexLocal.plugin],
