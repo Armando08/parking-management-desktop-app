@@ -1,5 +1,4 @@
-# Parking Manager Desktop APP Refactoring in TYPESCRIPT
-
+# Parking Manager Desktop APP 🚗 Refactoring in TYPESCRIPT + New Features 😍
 ## Project setup
 ```
 npm install
