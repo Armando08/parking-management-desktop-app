@@ -50,7 +50,7 @@ export default class NavBar extends Vue {
     }, 1000)
   }
 
-  created() {
+  beforeMount() {
     this.timeInterval()
     this.displayLogoutBtn = window.location.pathname !== '/login'
   }

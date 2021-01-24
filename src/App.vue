@@ -1,21 +1,17 @@
 <template>
   <v-app class="absolute inset-0">
-    <div>
+   <navbar />
       <router-view />
-    </div>
   </v-app>
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+  import { Vue, Component } from 'vue-property-decorator'
+  import Navbar from '@/components/Navbar.vue'
+  @Component({
+    components: { Navbar },
+  })
+  export default class App extends Vue {
 
-export default Vue.extend({
-  name: 'App',
-
-  components: {},
-
-  data: () => ({
-    //
-  }),
-})
+  }
 </script>
