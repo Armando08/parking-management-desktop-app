@@ -8,7 +8,14 @@ class Reports extends VuexModule {
   totalParkedCars?: number | null = null
 
   @Mutation
+  REPORT_DATA(payload: object) {
+    console.log(payload, `this is payload report data`)
+    this.reportData.push(payload)
+  }
+  @Mutation
   FILTER_REPORT_DATA(payload: any) {
+    console.log(payload, 'of filtering !')
+
     let totalReportAmount = 0
     this.filteredData = this.reportData.filter((report: any) => {
       if (!report.totalClientAmount) {
@@ -25,13 +32,15 @@ class Reports extends VuexModule {
       }
       return conditionCompleted
     })
-    filteredTotalCarParked = this.filteredData.length
+
+    const filteredTotalCarParked = this.filteredData.length
     this.totalFilteredReport = totalReportAmount
     this.totalParkedCars = filteredTotalCarParked
   }
 
   @Action({ root: true, rawError: true })
-  dailyReports(payload: any) {
+  dailyReportsOne(payload: any) {
+    console.log(payload, 'reports ts')
     this.context.commit('REPORT_DATA', payload)
   }
   @Action({ root: true, rawError: true })

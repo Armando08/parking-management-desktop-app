@@ -93,12 +93,12 @@ export default class ParkingBill extends Vue {
   checkoutData: any
   @Parking.Getter
   dailyTotalTurnover: number
-  checkoutParkedCar() {
-    console.log(this.checkoutData)
-    this.$store.dispatch('removeParkedCar', this.checkoutData)
+  async checkoutParkedCar() {
+    console.log(this.checkoutData,`test something !`)
     this.$store.dispatch('printExitInvoice', this.checkoutData)
-    this.$store.dispatch('reportData', this.checkoutData)
+    this.$store.dispatch('dailyReportsOne', this.checkoutData)
     this.$store.dispatch('totalTurnOver', this.checkoutData)
+    this.$store.dispatch('removeParkedCar', this.checkoutData)
   }
   created() {
     Object.keys(this.checkoutData).forEach(

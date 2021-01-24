@@ -14,7 +14,7 @@
               <v-text-field
                 :value="dateFormatEntry"
                 clearable
-                label="Data e Hyrjes"
+                label="Start Date"
                 readonly
                 v-on="on"
               ></v-text-field>
@@ -36,7 +36,7 @@
               <v-text-field
                 :value="dateFormatExit"
                 clearable
-                label="Data e Daljes"
+                label="End Date"
                 readonly
                 v-on="on"
               ></v-text-field>
@@ -77,7 +77,6 @@
           :headers="headers"
           :items="getReportsData"
           :search="search"
-          show-select
           item-key="currentTime"
           class="w-full"
         >
@@ -100,26 +99,29 @@
           </template>
           <template slot="items" slot-scope="props">
             <tr :active="props.selected">
-              <td class="text-uppercase text-center">{{ props.item.user }}</td>
-              <td class="text-uppercase text-center">
+              <td class="text-uppercase">{{ props.item.user }}</td>
+              <td class="text-uppercase">
                 {{ props.item.carPlate }}
               </td>
-              <td class="text-center">{{ props.item.timeAmount }}</td>
-              <td class="text-center">{{ props.item.totalClientAmount }}</td>
+              <td>{{ props.item.timeAmount }}</td>
+              <td>{{ props.item.totalClientAmount }}</td>
             </tr>
           </template>
         </v-data-table>
       </v-card>
     </div>
     <div class="total-filtered">
-      <v-chip x-large class="ma-2" color="primary" text-color="white">
-        Total Te Parkuara : {{ this.getTotalFilteredCars }}
-        <v-icon right>mdi-car</v-icon>
+      <v-chip class="ma-2" color="pink" label large text-color="white">
+        <v-icon left>
+          mdi-car
+        </v-icon>
+        Total Parked Cars : {{ this.getTotalFilteredCars }}
       </v-chip>
-
-      <v-chip x-large class="ma-2" color="primary" text-color="white">
-        Shuma Total : {{ this.getTotalFiltered }}
-        <v-icon>mdi-cash-usd</v-icon>
+      <v-chip class="ma-2" color="cyan" label large text-color="white">
+        <v-icon left>
+          mdi-cash-usd
+        </v-icon>
+        Total Amount : {{ this.getTotalFiltered }}
       </v-chip>
     </div>
   </div>
@@ -137,9 +139,9 @@ export default class Reports extends Vue {
   @ReportsStore.Getter
   getReportsData: any
   @ReportsStore.Getter
-  getTotalFiltered: any
+  getTotalFiltered: number
   @ReportsStore.Getter
-  getTotalFilteredCars: any
+  getTotalFilteredCars: number
   fromDate?: string = moment().format('YYYY-MM-DD')
   toDate?: string = moment().format('YYYY-MM-DD')
   entryCalendar?: boolean = false
@@ -154,27 +156,27 @@ export default class Reports extends Vue {
   }
   headers: Array<object> = [
     {
-      text: 'Perdoruesi',
+      text: 'User',
       value: 'user',
-      align: 'right',
+      align: 'center',
       class: 'text-center',
     },
     {
-      text: 'Targa e Mjetit',
+      text: 'Car Plate',
       value: 'carPlate',
-      align: 'right',
+      align: 'center',
       class: 'text-center',
     },
     {
-      text: 'Koha Totale',
-      value: 'totalAmount',
-      align: 'right',
+      text: 'Total Time',
+      value: 'timeAmount',
+      align: 'center',
       class: 'text-center',
     },
     {
-      text: 'Paguar',
+      text: 'Amount',
       value: 'totalClientAmount',
-      align: 'right',
+      align: 'center',
       class: 'text-center',
     },
   ]
@@ -200,6 +202,7 @@ export default class Reports extends Vue {
     }, 1000)
   }
   filterReports() {
+    alert('filtering')
     const data: object = {
       fromDate: this.fromDate,
       toDate: this.toDate,
@@ -212,7 +215,7 @@ export default class Reports extends Vue {
     this.timeInterval()
   }
   mounted() {
-    console.log(this.getUser,`get user`)
+    console.log(this.getUser, `get user`)
     if (!this.getUser) {
       console.log(this.getTotalFilteredCars)
       this.$router.push({ name: 'Login' })
@@ -225,4 +228,10 @@ export default class Reports extends Vue {
   position: relative;
   top: 100px;
 }
+  .total-filtered{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 50px;
+  }
 </style>

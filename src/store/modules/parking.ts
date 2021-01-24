@@ -1,6 +1,7 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 import moment from 'moment/moment'
 import Handlebars from 'handlebars'
+import log = Handlebars.log
 // import BrowserWindow = Electron.BrowserWindow;
 /*eslint-disable */
 // const { remote } = require('electron')
@@ -36,6 +37,7 @@ class Parking extends VuexModule {
   public parkedCars: any = []
   public loggedUser?: any = ''
   public totalTurnover?: number = 0
+  public userIdentification: any = ''
   public users: any = {
     admin: {
       id: 1,
@@ -105,6 +107,7 @@ class Parking extends VuexModule {
   }
   @Mutation
   TOTAL_TURNOVER(payload: any) {
+    console.log(payload,  'total turover')
     /*eslint-disable */
     this.users[this.loggedUser].turnOverAmount += payload.totalClientAmount
     /*eslint-enable*/
@@ -112,7 +115,7 @@ class Parking extends VuexModule {
   @Mutation
   ENTRY_INVOICE_PRINT(payload: any) {
     if (payload.plate === '') {
-      alert('Ju lutem vendosni nje vlere')
+      alert('This Field can not be empty !')
       return
     }
     const duplicateCarPlate = this.parkedCars.filter(function(plate: any) {
@@ -237,7 +240,7 @@ class Parking extends VuexModule {
   @Mutation
   SET_LOGGED_USER(username: string) {
     if (this.loggedUser) {
-      this.users[this.loggedUser].turnOverAmount = 0
+      this.users[username].turnOverAmount = 0
     }
     this.loggedUser = username
     alert(this.loggedUser)
@@ -323,19 +326,16 @@ class Parking extends VuexModule {
   }
   @Action({ root: true, rawError: true })
   login(payload: any) {
-    console.log(payload, 'store payloadd !!')
-    // alert(111)
-    // console.log(this.context.state.loginTime)
-    // const { loginTime } = payload
-    // this.loginTime = loginTime
-
-    console.log(this.users, `pass check ?`)
+    this.loginTime = payload.loginTime
     if (this.users[payload.email].password === payload.password) {
-      alert('armando jemi in')
-      return this.context.commit('SET_LOGGED_USER', payload.email)
+      this.context.commit('SET_LOGGED_USER', payload.email)
+      return true
+    }
+    alert('Username Or Password Wrong !')
+    return false
 
-    } else alert('Emri Ose Password Gabim !')
   }
+
   @Action({ root: true, rawError: true })
   logout() {
     this.context.commit('SET_LOGGED_USER', false)
@@ -353,7 +353,6 @@ class Parking extends VuexModule {
     return this.checkoutDetails
   }
   get dailyTotalTurnover() {
-    console.log(this.users)
     if (this.loggedUser && this.users[this.loggedUser]) {
       return this.users[this.loggedUser].turnOverAmount
     }

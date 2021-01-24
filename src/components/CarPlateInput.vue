@@ -26,8 +26,8 @@ import { Vue, Component } from 'vue-property-decorator'
 import moment from 'moment'
 @Component({})
 export default class CarPlateInput extends Vue {
-  plate = ''
-  id = 0
+  plate?:string = ''
+  id?: number = 0
 
   addPlate() {
     const currentTime: string = moment().format('DD/MM/YYYY HH:mm:ss')

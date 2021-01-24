@@ -24,13 +24,13 @@
 
 <script lang="ts">
 import moment from 'moment'
-import { Component, Vue } from 'vue-property-decorator'
+import { Component, Vue, Watch } from 'vue-property-decorator'
 
 @Component({})
 export default class NavBar extends Vue {
   currentTime?: string = ''
   currentDate?: string = ''
-  displayLogoutBtn?: boolean = false
+  displayLogoutBtn?: boolean = true
 
   get Date() {
     return {
@@ -49,10 +49,17 @@ export default class NavBar extends Vue {
       this.currentTime = moment().format('H:mm:ss a')
     }, 1000)
   }
-
-  beforeMount() {
+  @Watch('$route')
+  onRouteParamChange(from: any, to: any) {
+    console.log(from.fullPath, 'path from')
+    if (from.fullPath === '/login') {
+      this.displayLogoutBtn = false
+      return
+    }
+    this.displayLogoutBtn = true
+  }
+  created() {
     this.timeInterval()
-    this.displayLogoutBtn = window.location.pathname !== '/login'
   }
 }
 </script>
