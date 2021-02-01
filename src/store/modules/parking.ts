@@ -32,7 +32,7 @@ const calculateFee = (durationInMilisec: number) => {
 }
 @Module({ namespaced: true })
 class Parking extends VuexModule {
-  public loginTime?: any = {}
+  loginDateTime: any = ''
   public checkoutDetails?: object | any
   public parkedCars: any = []
   public loggedUser?: any = ''
@@ -107,7 +107,7 @@ class Parking extends VuexModule {
   }
   @Mutation
   TOTAL_TURNOVER(payload: any) {
-    console.log(payload,  'total turover')
+    console.log(payload, 'total turover')
     /*eslint-disable */
     this.users[this.loggedUser].turnOverAmount += payload.totalClientAmount
     /*eslint-enable*/
@@ -251,7 +251,7 @@ class Parking extends VuexModule {
       user: this.loggedUser,
       logoutTime: payload.leaveTime,
       totalTurnover: payload.turnover,
-      loginTime: this.loginTime,
+      loginTime: this.loginDateTime,
     }
     if (this.loggedUser === 'admin') {
       return
@@ -326,14 +326,14 @@ class Parking extends VuexModule {
   }
   @Action({ root: true, rawError: true })
   login(payload: any) {
-    this.loginTime = payload.loginTime
+    alert('Hello World !!')
+    this.loginDateTime = payload.loginTime
     if (this.users[payload.email].password === payload.password) {
       this.context.commit('SET_LOGGED_USER', payload.email)
       return true
     }
     alert('Username Or Password Wrong !')
     return false
-
   }
 
   @Action({ root: true, rawError: true })
