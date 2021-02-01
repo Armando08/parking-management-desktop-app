@@ -1,0 +1,95 @@
+<html>
+  <head>
+    <style>
+      body,
+      #__layout {
+        position: relative;
+        background: white;
+        padding: 0px;
+        margin: 0px;
+      }
+      .page {
+        position: relative;
+        padding: 0;
+        margin: 0;
+        width: 5cm;
+      }
+      .print-ticket {
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 5cm;
+      }
+      .text-center {
+        text-align: center;
+      }
+      .row {
+        width: 100%;
+        float: left;
+      }
+      .queue-print {
+        padding-left: 5px;
+        font-size: 12px;
+        margin: 5px 0px;
+      }
+      .col1 {
+        font-weight: bold;
+        float: left;
+        width: 85px;
+      }
+      .col2 {
+        font-weight: bold;
+        float: right;
+        margin-right: 5px;
+      }
+      .image-frame {
+        height: 150px;
+        width: 150px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+      <div class="print-ticket">
+        <div class="row text-center">
+          <img src="../src/renderer/assets/logos.png" class="image-frame" />
+        </div>
+        <div class="row text-center">
+          <h5>* * * * * * * * * * * * * *</h5>
+        </div>
+        <div class="row queue-print">
+          <div class="col1 client-name">Nr Fature :</div>
+          <div class="col2">{{ id }}</div>
+        </div>
+        <div class="row queue-print">
+          <div class="col1 client-name">Turni :</div>
+          <div class="col2">{{ user }}</div>
+        </div>
+        <div class="row queue-print">
+          <div class="col1 client-name">Targa :</div>
+          <div class="col2">{{ carPlate }}</div>
+        </div>
+        <div class="row queue-print">
+          <div class="col1">Data & Ora e Hyrjes:</div>
+          <div class="col2">{{ startTime }}</div>
+        </div>
+        <div class="row queue-print">
+          <div class="col1">Data & Ora e Daljes:</div>
+          <div class="col2">{{ endTime }}</div>
+        </div>
+        <div class="row queue-print">
+          <div class="col1">Koha e Qendrimit:</div>
+          <div class="col2">{{ timeAmount }}</div>
+        </div>
+        <br />
+        <div class="row queue-print">
+          <h3><div class="col1">Total:</div></h3>
+          <div class="col2">{{ totalAmount }}</div>
+        </div>
+        <div class="row text-center mt-5">
+          <h5>* * * * * * * * * * * * * *</h5>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
