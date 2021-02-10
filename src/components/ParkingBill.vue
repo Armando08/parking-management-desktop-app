@@ -9,10 +9,10 @@
           {{ dailyTotalTurnover }} USD</v-toolbar-title
         >
       </v-toolbar>
-      <v-list-item v-if="checkoutData.carPlate === undefined">
+      <v-list-item v-show="checkoutData.carPlate === undefined">
         Click a row to continue
       </v-list-item>
-      <v-list v-else>
+      <v-list v-show="checkoutData.carPlate !== undefined">
         <v-list-item>
           <v-list-item-action>
             <v-icon color="black">mdi-car</v-icon>
