@@ -1,21 +1,21 @@
 import { VuexModule, Module, Mutation, Action } from 'vuex-module-decorators'
 import moment from 'moment/moment'
 import Handlebars from 'handlebars'
-import log = Handlebars.log
+import router  from '@/router/index'
 // import BrowserWindow = Electron.BrowserWindow;
 /*eslint-disable */
 // const { remote } = require('electron')
 // const { BrowserWindow } = remote
-const path = require('path')
-const fs = require('fs')
+const path = require('path');
+const fs = require('fs');
 /*eslint-enable */
-const THREE_HOURS: number = 3 * 60 * 60 * 1000
-const FOUR_HOURS: number = 4 * 60 * 60 * 1000
-const FIVE_HOURS: number = 5 * 60 * 60 * 1000
-const SIX_HOURS: number = 6 * 60 * 60 * 1000
+const THREE_HOURS: number = 3 * 60 * 60 * 1000;
+const FOUR_HOURS: number = 4 * 60 * 60 * 1000;
+const FIVE_HOURS: number = 5 * 60 * 60 * 1000;
+const SIX_HOURS: number = 6 * 60 * 60 * 1000;
 
 const calculateFee = (durationInMilisec: number) => {
-  let totalFee = 0
+  let totalFee = 0;
 
   if (durationInMilisec <= THREE_HOURS) {
     totalFee = 200
@@ -29,15 +29,15 @@ const calculateFee = (durationInMilisec: number) => {
     totalFee = 600
   }
   return totalFee
-}
+};
 @Module({ namespaced: true })
 class Parking extends VuexModule {
-  loginDateTime: any = ''
-  public checkoutDetails?: object | any
-  public parkedCars: any = []
-  public loggedUser?: any = ''
-  public totalTurnover?: number = 0
-  public userIdentification: any = ''
+  public loginTime?: any = {};
+  public checkoutDetails?: object | any;
+  public parkedCars: any = [];
+  public loggedUser?: any = '';
+  public totalTurnover?: number = 0;
+  public userIdentification: any = '';
   public users: any = {
     admin: {
       id: 1,
@@ -67,24 +67,24 @@ class Parking extends VuexModule {
       turnOverAmount: 0,
       isLogged: false,
     },
-  }
+  };
 
   @Mutation
   SET_CAR_DETAILS(index: number) {
-    const endTime: string = moment().format('DD/MM/YYYY HH:mm:ss')
-    const endTimestamp: number = new Date().getTime()
-    const startTime: number = this.parkedCars[index].currentTime
-    const toDate: string = moment().format('YYYY-MM-DD')
-    const id: number = this.parkedCars[index].id
-    const user: any = this.loggedUser
-    const startTimestamp: number = this.parkedCars[index].startTimestamp
+    const endTime: string = moment().format('DD/MM/YYYY HH:mm:ss');
+    const endTimestamp: number = new Date().getTime();
+    const startTime: number = this.parkedCars[index].currentTime;
+    const toDate: string = moment().format('YYYY-MM-DD');
+    const id: number = this.parkedCars[index].id;
+    const user: any = this.loggedUser;
+    const startTimestamp: number = this.parkedCars[index].startTimestamp;
     const differenceMs: number = moment(endTime, 'DD/MM/YYYY HH:mm:ss').diff(
       moment(startTime, 'DD/MM/YYYY HH:mm:ss')
-    )
-    const msDuration: any = moment.duration(differenceMs)
+    );
+    const msDuration: any = moment.duration(differenceMs);
     const totalTime: any =
-      Math.floor(msDuration.asHours()) + moment(differenceMs).format(':mm:ss')
-    const totalAmount: number = calculateFee(endTimestamp - startTimestamp)
+      Math.floor(msDuration.asHours()) + moment(differenceMs).format(':mm:ss');
+    const totalAmount: number = calculateFee(endTimestamp - startTimestamp);
 
     this.checkoutDetails = {
       startTime: startTime,
@@ -102,12 +102,11 @@ class Parking extends VuexModule {
   }
   @Mutation
   REMOVE_PARKED_CAR() {
-    this.parkedCars.splice(this.checkoutDetails.tableIndex, 1)
+    this.parkedCars.splice(this.checkoutDetails.tableIndex, 1);
     this.checkoutDetails = {}
   }
   @Mutation
   TOTAL_TURNOVER(payload: any) {
-    console.log(payload, 'total turover')
     /*eslint-disable */
     this.users[this.loggedUser].turnOverAmount += payload.totalClientAmount
     /*eslint-enable*/
@@ -115,62 +114,62 @@ class Parking extends VuexModule {
   @Mutation
   ENTRY_INVOICE_PRINT(payload: any) {
     if (payload.plate === '') {
-      alert('This Field can not be empty !')
+      alert('This Field can not be empty !');
       return
     }
     const duplicateCarPlate = this.parkedCars.filter(function(plate: any) {
       return payload.plate === plate.plate
-    })
+    });
 
-    payload.user = this.loggedUser
+    payload.user = this.loggedUser;
 
     if (duplicateCarPlate.length > 0) {
-      alert('Kjo Targe Ekziston : \n \n' + payload.plate)
+      alert('This Car Plate exist  : \n \n' + payload.plate);
       return
     }
-    this.parkedCars.push(payload)
+    this.parkedCars.push(payload);
     try {
       const data = {
         user: this.loggedUser,
         carPlate: payload.plate,
         startTime: payload.currentTime,
         id: payload.id,
-      }
+      };
 
-      const dirToCurrentPath = process.cwd()
-      const file: string = path.resolve(dirToCurrentPath, 'print.html')
+      const dirToCurrentPath = process.cwd();
+      const file: string = path.resolve(dirToCurrentPath, 'print.html');
       let templateSource =
         process.env.ENTRY_INVOICE_TEMPLATE ||
-        'C:\\parking\\entry_invoice_template.html'
+        'C:\\parking\\entry_invoice_template.html';
 
       if (templateSource) {
         templateSource = fs.readFileSync(templateSource, 'utf8')
       } else {
-        alert(' file print not found')
+        alert(' file print not found');
         return
       }
-      const templateFn = Handlebars.compile(templateSource)
+      const templateFn = Handlebars.compile(templateSource);
 
-      const contentToPrint: string = templateFn(data)
-      fs.writeFileSync(file, contentToPrint)
+      const contentToPrint: string = templateFn(data);
+      fs.writeFileSync(file, contentToPrint);
 
       //@-ts-ignore
       let winPrinter: any = new BrowserWindow({
         width: 800,
         height: 250,
         show: false,
-      })
+      });
       winPrinter.once('ready-to-show', () => {
         winPrinter.hide()
-      })
-      winPrinter.loadURL('file:///' + file)
+      });
+      winPrinter.loadURL('file:///' + file);
       winPrinter.webContents.on('did-finish-load', () => {
         winPrinter.webContents.print({
           silent: true,
-        })
+        });
         setTimeout(() => {
-          winPrinter.close()
-          winPrinter = null
+          winPrinter.close();
+          winPrinter = null;
           fs.unlinkSync(file)
         }, 10000)
       })
@@ -188,62 +187,62 @@ class Parking extends VuexModule {
       timeAmount: payload.timeAmount,
       totalAmount: payload.totalClientAmount,
       id: payload.id,
-    }
+    };
 
     try {
-      const dirToCurrentPath = process.cwd()
-      const file: string = path.resolve(dirToCurrentPath, 'print.html')
+      const dirToCurrentPath = process.cwd();
+      const file: string = path.resolve(dirToCurrentPath, 'print.html');
       let templateSource =
         process.env.EXIT_INVOICE_TEMPLATE ||
-        'C:\\parking\\exit_invoice_template.html'
+        'C:\\parking\\exit_invoice_template.html';
 
       if (templateSource) {
         templateSource = fs.readFileSync(templateSource, 'utf8')
       } else {
-        alert(' file print not found')
+        alert(' file print not found');
         return
       }
-      const templateFn = Handlebars.compile(templateSource)
+      const templateFn = Handlebars.compile(templateSource);
 
-      const contentToPrint: string = templateFn(data)
-      fs.writeFileSync(file, contentToPrint)
+      const contentToPrint: string = templateFn(data);
+      fs.writeFileSync(file, contentToPrint);
 
       let winPrinter = new BrowserWindow({
         width: 800,
         height: 600,
         show: false,
-      })
+      });
       winPrinter.once('ready-to-show', () => {
         winPrinter.hide()
-      })
-      winPrinter.loadURL('file:///' + file)
+      });
+      winPrinter.loadURL('file:///' + file);
       winPrinter.webContents.on('did-finish-load', () => {
         winPrinter.webContents.print({
           silent: true,
-        })
+        });
         setTimeout(() => {
           winPrinter.webContents.print({
             silent: true,
-          })
+          });
           setTimeout(() => {
-            winPrinter.close()
-            winPrinter = null
+            winPrinter.close();
+            winPrinter = null;
             fs.unlinkSync(file)
           }, 10000)
         }, 1000)
       })
     } catch (e) {
-      console.log('print', e)
+      console.log('print', e);
       alert(e)
     }
   }
   @Mutation
   SET_LOGGED_USER(username: string) {
+    console.log(this.loggedUser,'this is username')
     if (this.loggedUser) {
       this.users[username].turnOverAmount = 0
     }
-    this.loggedUser = username
-    alert(this.loggedUser)
+    this.loggedUser = username;
   }
   @Mutation
   GET_TURNOVER_INVOICE(payload: any) {
@@ -251,55 +250,55 @@ class Parking extends VuexModule {
       user: this.loggedUser,
       logoutTime: payload.leaveTime,
       totalTurnover: payload.turnover,
-      loginTime: this.loginDateTime,
-    }
+      loginTime: this.loginTime,
+    };
     if (this.loggedUser === 'admin') {
       return
     }
     try {
-      const dirToCurrentPath = process.cwd()
-      const file: string = path.resolve(dirToCurrentPath, 'print.html')
+      const dirToCurrentPath = process.cwd();
+      const file: string = path.resolve(dirToCurrentPath, 'print.html');
       let templateSource =
         process.env.TOTAL_TURNOVER_TEMPLATE ||
-        'C:\\parking\\total_turnover_template.html'
+        'C:\\parking\\total_turnover_template.html';
 
       if (templateSource) {
         templateSource = fs.readFileSync(templateSource, 'utf8')
       } else {
-        alert(' file print not found')
+        alert(' file print not found');
         return
       }
-      const templateFn = Handlebars.compile(templateSource)
+      const templateFn = Handlebars.compile(templateSource);
 
-      const contentToPrint: string = templateFn(data)
-      fs.writeFileSync(file, contentToPrint)
+      const contentToPrint: string = templateFn(data);
+      fs.writeFileSync(file, contentToPrint);
 
       let winPrinter = new BrowserWindow({
         width: 800,
         height: 600,
         show: false,
-      })
+      });
       winPrinter.once('ready-to-show', () => {
         winPrinter.hide()
-      })
-      winPrinter.loadURL('file:///' + file)
+      });
+      winPrinter.loadURL('file:///' + file);
       winPrinter.webContents.on('did-finish-load', () => {
         winPrinter.webContents.print({
           silent: true,
-        })
+        });
         setTimeout(() => {
           winPrinter.webContents.print({
             silent: true,
-          })
+          });
           setTimeout(() => {
-            winPrinter.close()
-            winPrinter = null
+            winPrinter.close();
+            winPrinter = null;
             fs.unlinkSync(file)
           }, 10000)
         }, 1000)
       })
     } catch (e) {
-      console.log('print', e)
+      console.log('print', e);
       alert(e)
     }
   }
@@ -326,19 +325,19 @@ class Parking extends VuexModule {
   }
   @Action({ root: true, rawError: true })
   login(payload: any) {
-    alert('Hello World !!')
-    this.loginDateTime = payload.loginTime
-    if (this.users[payload.email].password === payload.password) {
-      this.context.commit('SET_LOGGED_USER', payload.email)
-      return true
+    if (!this.users[payload.password]) {
+      alert('Username Or Password Wrong !');
+      return
     }
-    alert('Username Or Password Wrong !')
-    return false
+    else {
+      this.context.commit('SET_LOGGED_USER', payload.email);
+      router.push({ name: 'Home' })
+    }
   }
 
   @Action({ root: true, rawError: true })
   logout() {
-    this.context.commit('SET_LOGGED_USER', false)
+    this.context.commit('SET_LOGGED_USER', false);
     return true
   }
   @Action({ root: true, rawError: true })

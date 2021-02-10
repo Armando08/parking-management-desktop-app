@@ -74,14 +74,11 @@ export default class Login extends Vue {
       alert('How can you login without a username or password ? 😲 ')
       return
     }
-    const response = this.$store.dispatch('login', credentials)
-    if (!response) {
-      return
-    }
+   this.$store.dispatch('login', credentials)
+
     if (this.username === 'admin') {
-      return this.$router.push({ name: 'Reports' })
+       this.$router.push({ name: 'Reports' })
     }
-    this.$router.push({ name: 'Home' })
   }
 }
 </script>
