@@ -107,7 +107,6 @@ class Parking extends VuexModule {
   }
   @Mutation
   TOTAL_TURNOVER(payload: any) {
-    console.log(payload,  'total turover');
     /*eslint-disable */
     this.users[this.loggedUser].turnOverAmount += payload.totalClientAmount
     /*eslint-enable*/
@@ -333,7 +332,6 @@ class Parking extends VuexModule {
     else {
       this.context.commit('SET_LOGGED_USER', payload.email);
       router.push({ name: 'Home' })
-      console.log(this)
     }
   }
 
