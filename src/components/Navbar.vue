@@ -11,6 +11,14 @@
       >{{ currentTime }}</v-toolbar-title
     >
     <v-spacer v-if="displayLogoutBtn"></v-spacer>
+    <v-toolbar-title
+      class="current-time"
+      v-if="displayLogoutBtn"
+      style="color: white"
+      >{{ this.getUser.username }}</v-toolbar-title
+    >
+    <v-divider color="white" class="mx-3" inset vertical></v-divider>
+
     <v-btn
       v-if="displayLogoutBtn"
       @click.prevent="logout"
@@ -25,9 +33,12 @@
 <script lang="ts">
 import moment from 'moment'
 import { Component, Vue, Watch } from 'vue-property-decorator'
-
+import { namespace } from 'vuex-class'
+const Parking = namespace('Parking')
 @Component({})
 export default class NavBar extends Vue {
+  @Parking.Getter
+  getUser: any
   currentTime?: string = ''
   currentDate?: string = ''
   displayLogoutBtn?: boolean = true
@@ -59,6 +70,7 @@ export default class NavBar extends Vue {
     this.displayLogoutBtn = true
   }
   created() {
+    console.log(this.getUser.username)
     this.timeInterval()
   }
 }
